@@ -100,3 +100,18 @@ Use UUU to download signed OS container:
   $ sudo ./uuu ucmd setenv fastboot_buffer ${cntr_addr}
   $ sudo ./uuu download -i os_cntr_signed.bin
   $ sudo ./uuu FB: ucmd fatwrite mmc 0:1 ${fastboot_buffer} os_cntr_signed.bin <size in hex>
+
+2.4 Manually boot from container
+----------------------
+
+- For i.MX 8ULP/9x
+
+The auth_cntr function will authenticate the container image and copy the images inside 
+container to specified target addresses.
+
+On the serial console connected to i.MX 8ULP/9x board halted at u-boot prompt:
+
+  > fatload mmc 0:1 0x90000000 os_cntr_signed.bin
+  > auth_cntr 0x90000000
+  > booti ${kernel_addr_r} - ${fdt_addr_r}
+
